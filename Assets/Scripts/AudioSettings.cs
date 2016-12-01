@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Audio;
 
-namespace SimpleAudioFramework
+namespace UnityAudioFramework
 {
 	/// <summary>
 	/// Settings for the audio to be played. Still deciding whether or not it is a good idea to isolate this from AudioEvent.

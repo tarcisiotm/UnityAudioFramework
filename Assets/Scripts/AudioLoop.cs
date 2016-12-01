@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace SimpleAudioFramework
+namespace UnityAudioFramework
 {
 	/// <summary>
 	/// Audio that by default will keep playing and looping

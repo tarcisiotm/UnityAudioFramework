@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SimpleAudioFramework
+namespace UnityAudioFramework
 {
 	public abstract class Singleton<T> : MonoBehaviour where T : Component
 	{

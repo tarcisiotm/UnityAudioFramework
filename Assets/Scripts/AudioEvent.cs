@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace SimpleAudioFramework
+namespace UnityAudioFramework
 {
 	[RequireComponent(typeof(AudioSource))]
 	public abstract class AudioEvent : MonoBehaviour {

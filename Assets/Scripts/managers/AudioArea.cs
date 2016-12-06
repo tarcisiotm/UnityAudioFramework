@@ -4,23 +4,21 @@ using UnityEngine;
 
 namespace UnityAudioFramework
 {
-	public class AudioManager : Singleton<AudioManager> {
+	public class AudioArea : MonoBehaviour { //TODO think about this name if it properly portrays what it is supposed to do
+
+		void Awake()
+		{
+			AudioManager.Instance.AddArea (this);
+		}
 
 		// Use this for initialization
 		void Start () {
-			AudioFactory.InstantiateAudioLoop ();
+			
 		}
 		
 		// Update is called once per frame
 		void Update () {
 			
 		}
-
-		#region Audio Factory
-
-
-
-		#endregion
-
 	}
 }

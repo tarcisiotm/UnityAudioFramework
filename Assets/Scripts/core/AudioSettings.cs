@@ -42,7 +42,9 @@ namespace UnityAudioFramework
 
 		//reverbZoneMix
 
+		[Header("Other Options")]
+
 		public Action OnStartedPlaying = null;
-		public Action OnFinishedPlaying = null;
+		public Action OnFinishedPlaying = null; //ended up removing onscenechange in order to keep the core simpler. If needed be, use areas.
 	}
 }

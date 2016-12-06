@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
+using System;
 
 namespace UnityAudioFramework
 {
@@ -11,15 +12,15 @@ namespace UnityAudioFramework
 	public class AudioSettings {
 
 		[Header("AudioSource Options")]
-		public AudioClip clip;
-		public AudioMixerGroup outputAudioMixerGroup;
+		public AudioClip clip = null;
+		public AudioMixerGroup outputAudioMixerGroup = null;
 
 		//bypass
 		//bypass
 		//bypass
 
-		public bool playOnAwake;
-		public bool loop;
+		public bool playOnAwake = true;
+		public bool loop = false;
 
 		//priority
 
@@ -36,9 +37,12 @@ namespace UnityAudioFramework
 		public float spatialBlend = 0f;
 
 		[Header("Playback Options")]
-		public bool fadeIn;
-		public bool fadeOut;
+		public bool fadeIn = false;
+		public bool fadeOut = false;
 
 		//reverbZoneMix
+
+		public Action OnStartedPlaying = null;
+		public Action OnFinishedPlaying = null;
 	}
 }

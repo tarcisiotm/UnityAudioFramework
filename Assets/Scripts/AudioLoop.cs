@@ -8,14 +8,10 @@ namespace UnityAudioFramework
 	/// </summary>
 	public class AudioLoop : AudioEvent
 	{
-		// Use this for initialization
-		void Start () {
-		
-		}
-		
-		// Update is called once per frame
-		void Update () {
-		
+		public override void Init (AudioClip clip = null)
+		{
+			base.Init (clip);
+			Setup (AudioSettingsTemplates.GetLoopSettings (clip));
 		}
 	}
 }

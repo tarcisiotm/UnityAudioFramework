@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 namespace UnityAudioFramework
@@ -23,7 +24,7 @@ namespace UnityAudioFramework
 			}
 		}
 
-		enum PlaybackState
+		public enum PlaybackState
 		{
 			BEFORE_INIT,
 			PLAYING,
@@ -32,30 +33,33 @@ namespace UnityAudioFramework
 			DONE_PLAYING
 		}
 
+		protected bool IsPlaying { get { return m_AudioSource.isPlaying;}}
+
 		PlaybackState m_PlaybackState;
+		public PlaybackState PlaybackStateAudio {get{ return m_PlaybackState;}}
 
 		#region Initialization
 
 		public virtual void Awake()
 		{
-			
 		}
 
-		public virtual void Init()
+
+		public virtual void Init(AudioClip clip)
 		{
 			
 		}
 
 		public void OnEnable()
 		{
-			//reset settings in case of Polling system
+			//reset settings in case of Pooling system
 		}
 
-		public void Setup(AudioSettings settings)
+		public void Setup(AudioSettings settings = null)
 		{
 			if (settings == null)
 			{
-				//TODO Load default settings
+				settings = AudioSettingsTemplates.GetDefaultSettings ();
 			}
 
 			m_Settings = settings;
@@ -79,11 +83,16 @@ namespace UnityAudioFramework
 
 		void ResetPlayback()
 		{
-			m_PlaybackState = PlaybackState.BEFORE_INIT;
+			SetPlaybackState (PlaybackState.BEFORE_INIT);
 			m_AudioSource.time = 0;
 		}
 
 		#region Playback
+
+		protected void SetPlaybackState(PlaybackState playbackState)
+		{
+			m_PlaybackState = playbackState;
+		}
 
 		public void PlayFromStart()
 		{
@@ -91,10 +100,11 @@ namespace UnityAudioFramework
 			Play ();
 		}
 
-		public void Play()
+		public virtual void Play()
 		{
-			m_PlaybackState = PlaybackState.PLAYING;
+			SetPlaybackState (PlaybackState.PLAYING);
 			m_AudioSource.Play ();
+			PlayAction (m_Settings.OnStartedPlaying);
 			//TODO COROUTINE TO HANDLE PLAYBACK
 		}
 
@@ -107,13 +117,13 @@ namespace UnityAudioFramework
 		public void Pause()
 		{
 			m_AudioSource.Pause ();
-			m_PlaybackState = PlaybackState.PAUSED;
+			SetPlaybackState (PlaybackState.PAUSED);
 		}
 
 		public void UnPause()
 		{
 			m_AudioSource.UnPause ();
-			m_PlaybackState = PlaybackState.PLAYING;
+			SetPlaybackState (PlaybackState.PLAYING);
 		}
 
 		public void TogglePause()
@@ -139,13 +149,13 @@ namespace UnityAudioFramework
 
 		#region Coroutines
 
-		IEnumerator Internal_Play()
+		/*IEnumerator Internal_Play()
 		{
 			while (m_PlaybackState == PlaybackState.PLAYING)
 			{
 				yield return new WaitForEndOfFrame ();
 			}
-		}
+		}*/
 
 		#endregion Coroutines
 		// Update is called once per frame
@@ -153,18 +163,34 @@ namespace UnityAudioFramework
 		
 		}
 
+		#region Util
+
+		/// <summary>
+		/// Plays the method checking for null.
+		/// </summary>
+		/// <param name="p_Action">The method to be called.</param>
+		protected void PlayAction(Action p_Action)
+		{
+			if (p_Action != null)
+			{
+				p_Action ();
+			}
+		}
+
+		#endregion Util
+
 		#region CleanUp
 
 		void OnDisable()
 		{
 			Debug.Log ("Calling OnDisable on: " + gameObject.name);
 			m_Settings = null;
-			m_PlaybackState = PlaybackState.BEFORE_INIT;
+			SetPlaybackState (PlaybackState.BEFORE_INIT);
 		}
 
-		void DestroyAudioObject()
+		protected void DestroyAudioObject()
 		{
-			
+			Destroy (this.gameObject);
 		}
 
 		#endregion Cleanup

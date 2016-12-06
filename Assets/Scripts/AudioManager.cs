@@ -8,12 +8,19 @@ namespace UnityAudioFramework
 
 		// Use this for initialization
 		void Start () {
-			
+			AudioFactory.InstantiateAudioLoop ();
 		}
 		
 		// Update is called once per frame
 		void Update () {
 			
 		}
+
+		#region Audio Factory
+
+
+
+		#endregion
+
 	}
 }

@@ -8,10 +8,10 @@ namespace UnityAudioFramework
 	/// </summary>
 	public class AudioLoop : AudioEvent
 	{
-		public override void Init (AudioClip clip = null)
+		public override void Init (AudioClip p_audioClip = null, AudioSettings p_audioSettings = null)
 		{
-			base.Init (clip);
-			Setup (AudioSettingsTemplates.GetLoopSettings (clip));
+			AudioSettings audioSettings = p_audioSettings == null ? AudioSettingsTemplates.GetOneShotSettings (p_audioClip) : p_audioSettings;
+			base.Init (p_audioClip, audioSettings);
 		}
 	}
 }

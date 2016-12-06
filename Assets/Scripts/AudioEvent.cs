@@ -45,9 +45,10 @@ namespace UnityAudioFramework
 		}
 
 
-		public virtual void Init(AudioClip clip)
+		public virtual void Init(AudioClip p_audioClip, AudioSettings p_audioSettings)
 		{
-			
+			p_audioSettings.clip = p_audioClip;
+			Setup (p_audioSettings);
 		}
 
 		public void OnEnable()

@@ -11,6 +11,9 @@ namespace UnityAudioFramework
 	[System.Serializable]
 	public class AudioSettings {
 
+		[Header("Options")]
+		public Vector3 position = Vector3.zero;
+
 		[Header("AudioSource Options")]
 		public AudioClip clip = null;
 		public AudioMixerGroup outputAudioMixerGroup = null;
@@ -24,6 +27,10 @@ namespace UnityAudioFramework
 
 		//priority
 
+		[Tooltip("Initial Volume")]
+		/// <summary>
+		/// The initial volume. If fading in, this will be the final volume level.
+		/// </summary>
 		[Range(0f,1f)]
 		public float volume = 1f;
 

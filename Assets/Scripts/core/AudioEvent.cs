@@ -10,6 +10,13 @@ namespace UnityAudioFramework
 		[SerializeField]
 		public AudioSettings m_Settings;
 
+		//TODO explicitly add position
+		//TODO Rolloff
+		//TODO option to attach as child of object
+		//TODO option to receive audioSettings as a prefab
+		//TODO tween for fading audio - after the game jam
+		//TODO Global volume multiplier option (probably on area AND manager, not here)
+
 		Coroutine Coroutine_Playback;
 
 		AudioSource audioSource;
@@ -49,11 +56,16 @@ namespace UnityAudioFramework
 		{
 			p_audioSettings.clip = p_audioClip;
 			Setup (p_audioSettings);
+			if (m_Settings.playOnAwake)
+			{
+				Play ();
+			}
 		}
 
 		public void OnEnable()
 		{
 			//reset settings in case of Pooling system
+			//reset tweens
 		}
 
 		public void Setup(AudioSettings settings = null)
@@ -73,6 +85,13 @@ namespace UnityAudioFramework
 			m_AudioSource.pitch = settings.pitch;
 			m_AudioSource.panStereo = settings.panStereo;
 			m_AudioSource.spatialBlend = settings.spatialBlend;
+
+			SetPosition (m_Settings.position);
+		}
+
+		public void SetPosition(Vector3 p_pos)
+		{
+			transform.position = p_pos;
 		}
 
 		// Use this for initialization
@@ -106,7 +125,6 @@ namespace UnityAudioFramework
 			SetPlaybackState (PlaybackState.PLAYING);
 			m_AudioSource.Play ();
 			PlayAction (m_Settings.OnStartedPlaying);
-			//TODO COROUTINE TO HANDLE PLAYBACK
 		}
 
 		public void Stop()
@@ -140,6 +158,24 @@ namespace UnityAudioFramework
 		}
 
 		#endregion Playback
+
+		#region Fade_Playback
+		public void Fade(float p_endVolume, float p_duration)
+		{
+		}
+
+		public void FadeIn(float p_duration)
+		{
+			Fade (m_Settings.volume, p_duration);
+		}
+
+		public void FadeOut(float p_duration)
+		{
+			Fade (0f, p_duration);
+		}
+
+
+		#endregion FadePlayback
 
 		#region Playback_Fade
 

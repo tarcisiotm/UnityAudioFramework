@@ -6,21 +6,21 @@ namespace UnityAudioFramework{
 	
 	public static class AudioFactory {
 
-		public static AudioOneShot InstantiateAudioOneShot(AudioClip p_audioClip = null, AudioSettings p_audioSettings = null)
+		public static AudioOneShot InstantiateAudioOneShot(AudioSettings p_audioSettings = null)
 		{
 			GameObject go = new GameObject ("Audio One Shot"); //TODO null check to add name
 			AudioOneShot audioOneShot = go.AddComponent <AudioOneShot>();
 
-			audioOneShot.Init (p_audioClip, p_audioSettings);
+			audioOneShot.Init (p_audioSettings);
 			return audioOneShot;
 		}
 
-		public static AudioLoop InstantiateAudioLoop(AudioClip p_audioClip = null, AudioSettings p_audioSettings = null)
+		public static AudioLoop InstantiateAudioLoop(AudioSettings p_audioSettings = null)
 		{
-			GameObject go = new GameObject ("Audio Loop");
+			GameObject go = new GameObject ("Audio Loop"); //TODO null check to add name
 			AudioLoop audioLoop = go.AddComponent <AudioLoop>();
 
-			audioLoop.Init (p_audioClip, p_audioSettings);
+			audioLoop.Init (p_audioSettings);
 			return audioLoop;
 		}
 

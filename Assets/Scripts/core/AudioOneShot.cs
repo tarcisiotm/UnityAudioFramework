@@ -13,10 +13,10 @@ namespace UnityAudioFramework
 
 		bool DestroyOnPlaybackEnd = true;
 
-		public override void Init (AudioClip p_clip = null, AudioSettings p_audioSettings = null)
+		public override void Init (AudioSettings p_audioSettings = null)
 		{
-			AudioSettings audioSettings = p_audioSettings == null ? AudioSettingsTemplates.GetOneShotSettings (p_clip) : p_audioSettings;
-			base.Init (p_clip, audioSettings);
+			AudioSettings audioSettings = p_audioSettings == null ? AudioSettingsTemplates.GetOneShotSettings (p_audioSettings.clip) : p_audioSettings;
+			base.Init (audioSettings);
 		}
 
 		public override void Play ()

@@ -49,6 +49,8 @@ namespace UnityAudioFramework
 				return;
 			}
 
+			m_instance = this as T;
+
 			DontDestroyOnLoad (gameObject);
 		}
 

@@ -12,6 +12,11 @@ namespace UnityAudioFramework
 
 		Coroutine Coroutine_Playback;
 
+		bool m_hasInit = false;
+
+		public bool IsFading{get{return m_fading;}}
+		bool m_fading = false;
+
 		AudioSource audioSource;
 		public AudioSource m_AudioSource
 		{ get
@@ -44,10 +49,18 @@ namespace UnityAudioFramework
 		{
 		}
 
-
-		public virtual void Init(AudioClip p_audioClip, AudioSettings p_audioSettings)
+		public virtual void Start()
 		{
-			p_audioSettings.clip = p_audioClip;
+			if (!m_hasInit)
+			{
+				Init (m_Settings);
+			}
+			FadeOut (10, null);
+		}
+
+
+		public virtual void Init(AudioSettings p_audioSettings)
+		{
 			Setup (p_audioSettings);
 		}
 
@@ -73,12 +86,15 @@ namespace UnityAudioFramework
 			m_AudioSource.pitch = settings.pitch;
 			m_AudioSource.panStereo = settings.panStereo;
 			m_AudioSource.spatialBlend = settings.spatialBlend;
+
+			m_hasInit = true;
+
+			if (settings.playOnAwake)
+			{
+				Play ();
+			}
 		}
 
-		// Use this for initialization
-		void Start () {
-		
-		}
 
 		#endregion Initialization
 
@@ -141,9 +157,53 @@ namespace UnityAudioFramework
 
 		#endregion Playback
 
+
+
 		#region Playback_Fade
 
+		void DoFade(float endValue, float p_duration, Action OnComplete = null)
+		{
+			StartCoroutine (Internal_Fade (endValue, p_duration, OnComplete));
+		}
 
+		IEnumerator Internal_Fade(float endValue, float p_duration, Action OnComplete = null)
+		{ 
+			//TODO support curves and other types of tween
+			m_fading = true;
+
+			float initialVolume = audioSource.volume;
+			float timePassed = 0;
+
+			while (m_fading)
+			{
+				timePassed += Time.deltaTime;
+				if (timePassed > p_duration) {
+					timePassed = p_duration;
+				}
+
+				float perc = timePassed / p_duration;
+				audioSource.volume = Mathf.Lerp(initialVolume, endValue, perc);
+
+				if (audioSource.volume == endValue)
+				{
+					m_fading = false;
+				}
+
+				yield return null;
+			}
+
+			PlayAction (OnComplete);
+		}
+
+		public void Fade(float endValue, float p_duration, Action OnComplete = null)
+		{
+			DoFade (endValue, p_duration, OnComplete);
+		}
+
+		public void FadeOut(float p_duration, Action OnComplete = null)
+		{
+			Fade (0, p_duration);
+		}
 
 		#endregion Playback_Fade
 

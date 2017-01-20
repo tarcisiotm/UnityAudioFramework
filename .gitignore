@@ -8,6 +8,7 @@
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
+/Assets/ProjectSettings/
  
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #

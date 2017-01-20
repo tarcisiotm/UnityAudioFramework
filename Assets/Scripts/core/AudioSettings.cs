@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Audio;
+using System;
 
-namespace SimpleAudioFramework
+namespace UnityAudioFramework
 {
 	/// <summary>
 	/// Settings for the audio to be played. Still deciding whether or not it is a good idea to isolate this from AudioEvent.
@@ -11,15 +12,15 @@ namespace SimpleAudioFramework
 	public class AudioSettings {
 
 		[Header("AudioSource Options")]
-		public AudioClip clip;
-		public AudioMixerGroup outputAudioMixerGroup;
+		public AudioClip clip = null;
+		public AudioMixerGroup outputAudioMixerGroup = null;
 
 		//bypass
 		//bypass
 		//bypass
 
-		public bool playOnAwake;
-		public bool loop;
+		public bool playOnAwake = true;
+		public bool loop = false;
 
 		//priority
 
@@ -36,9 +37,14 @@ namespace SimpleAudioFramework
 		public float spatialBlend = 0f;
 
 		[Header("Playback Options")]
-		public bool fadeIn;
-		public bool fadeOut;
+		public bool fadeIn = false;
+		public bool fadeOut = false;
 
 		//reverbZoneMix
+
+		[Header("Other Options")]
+
+		public Action OnStartedPlaying = null;
+		public Action OnFinishedPlaying = null; //ended up removing onscenechange in order to keep the core simpler. If needed be, use areas.
 	}
 }
